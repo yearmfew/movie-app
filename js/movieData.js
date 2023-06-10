@@ -20,9 +20,9 @@ async function fetchData(link) {
     const options = new Options("GET").getOptions()
     try {
         const response = await fetch(link, options)
-        if (!response.ok) throw new Error("HTTP ERROR " + response.status)
+        if (!response.ok) throw new Error("HTTP ERROR: " + response.status)
         const data = await response.json()
-        return data.results
+        return data
     } catch (error) {
         console.error(error)
     }
@@ -30,21 +30,37 @@ async function fetchData(link) {
 
 
 async function getPopularFilms() {
-    let data = await fetchData("https://api.themoviedb.org/3/movie/popular?language=en-US&page=1")
+    const data = await fetchData("https://api.themoviedb.org/3/movie/popular?language=en-US&page=1")
+    return data.results
+}
+
+async function getReviewsOfFilmById(movieId) {
+    const data = await fetchData(`https://api.themoviedb.org/3/movie/${movieId}/reviews?language=en-US&page=1`)
+    return data.results
+}
+
+async function getDetailsOfFilmById(movieId) {
+    const data = await fetchData(`https://api.themoviedb.org/3/movie/${movieId}?language=en-US`)
     return data
 }
 
-async function getReviewsOfFilmById(id) {
-    let data = await fetchData(`https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`)
-    return data
-}
+async function getImagesOfFilmById(movieId) {
+    const data = await fetchData(`https://api.themoviedb.org/3/movie/${movieId}/images`)
 
-async function getDetailsOfFilmById(id) {
+    const images = {
+        logoUrl: data.logos[0].file_path,
+        postersUrls: data.posters.slice(0, 10).map(poster => poster.file_path),
+        backdropsUrls: data.backdrops.slice(0, 10).map(backdrop => backdrop.file_path)
+    }
 
+
+    return images
 }
 
 
 export default {
-    getPopularFilms: getPopularFilms,
-    getReviewsOfFilmById: getReviewsOfFilmById
+    getPopularFilms,
+    getReviewsOfFilmById,
+    getDetailsOfFilmById,
+    getImagesOfFilmById
 }

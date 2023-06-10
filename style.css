@@ -6,7 +6,7 @@
     color: blueviolet;
 }
 
-.cards {
+.container .cards {
     display: flex;
     align-items: flex-start;
     width: 100%;
@@ -14,11 +14,104 @@
     gap: 1rem;
 }
 
-.card {
-
+.container .card {
     width: 19%;
 }
 
-.card img {
+.container .card img {
     height: 350px;
+}
+
+
+
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+#container section {
+    width: 50%;
+}
+
+#container .movie-details {
+    width: 100%;
+    padding: 0 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.movie-details .slider {
+    width: 55%;
+}
+
+#container .image {
+    width: 50%;
+    height: 400px;
+    background-image: url(https://fakeimg.pl/800x400);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+#container .movie-details .movie-title {
+    text-align: center;
+    font-size: 3rem;
+    padding: 0;
+    margin: 1rem;
+}
+
+#container .movie-details .movie-info {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.list-group-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.avatar {
+    border-radius: 50%;
+    border: 0.1rem solid blueviolet;
+    display: flex;
+    flex-direction: column;
+}
+
+.avatar-box {
+    display: flex;
+    width: 100%;
+    border-left: 2px solid gray;
+    padding-left: 1rem;
+    gap: 0.5rem;
+}
+
+#similar-movies .film-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+#similar-movies .card {
+    width: 25%;
+}
+
+section {
+    margin: 1rem 0;
 }

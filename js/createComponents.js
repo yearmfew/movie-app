@@ -1,4 +1,5 @@
 import movieData from "./movieData.js";
+// import movieDetailPage from "./movieDetailPage.js"
 
 
 async function createPopularMovies() {
@@ -24,44 +25,38 @@ async function createPopularMovies() {
     html += "</div>"
 
     popularMoviesDiv.innerHTML = html
-    addEventListenerForCard(films)
-
 }
 
 
-async function getReviewsOfFilm(id) {
-    const reviews = await movieData.getReviewsOfFilmById(id)
-    return reviews
-}
 
-async function getDetailsOfFilm(id) {
 
-}
-
-function openDetailPage(id) {
+function openDetailPage(movieId) {
     // TODO Open new page..
-    getReviewsOfFilm(id)
-    getDetailsOfFilm(id)
+    // bunu burda acik acik yapalim. Ayti metod kullnma. 
+    // movieDetailPage.openDetailPage(movieId)
+    location.href = `../movieDetails.html?movieId=${movieId}`
+
+
 }
 
 
-function addEventListenerForCard(films) {
-    // TODO add reviews to movie... 
-    // add a detailed info about movie
-    // more pics or so 
+function addEventListenerForCard() {
 
     const filmCards = document.querySelectorAll(".filmCard")
-
     filmCards.forEach(filmCard => {
+        console.log(filmCard)
         filmCard.addEventListener("click", () => { openDetailPage(filmCard.id) })
     })
-
-
 }
 
 
 
+async function startPage() {
 
+    await createPopularMovies()
+    addEventListenerForCard()
 
+}
 
-createPopularMovies()
+startPage()
+
