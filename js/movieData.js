@@ -57,10 +57,15 @@ async function getImagesOfFilmById(movieId) {
     return images
 }
 
+async function getSimilarFilmsById(movieId) {
+    const data = await fetchData(`https://api.themoviedb.org/3/movie/${movieId}/similar?language=en-US&page=1`)
+    return data.results
+}
 
 export default {
     getPopularFilms,
     getReviewsOfFilmById,
     getDetailsOfFilmById,
-    getImagesOfFilmById
+    getImagesOfFilmById,
+    getSimilarFilmsById
 }

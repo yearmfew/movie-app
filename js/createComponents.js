@@ -31,12 +31,7 @@ async function createPopularMovies() {
 
 
 function openDetailPage(movieId) {
-    // TODO Open new page..
-    // bunu burda acik acik yapalim. Ayti metod kullnma. 
-    // movieDetailPage.openDetailPage(movieId)
     location.href = `../movieDetails.html?movieId=${movieId}`
-
-
 }
 
 
@@ -44,7 +39,6 @@ function addEventListenerForCard() {
 
     const filmCards = document.querySelectorAll(".filmCard")
     filmCards.forEach(filmCard => {
-        console.log(filmCard)
         filmCard.addEventListener("click", () => { openDetailPage(filmCard.id) })
     })
 }
