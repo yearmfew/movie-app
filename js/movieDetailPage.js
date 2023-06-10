@@ -1,7 +1,6 @@
 import movieData from "./movieData.js"
 
 async function getReviewsOfFilm(movieId) {
-
     const reviews = await movieData.getReviewsOfFilmById(movieId)
     return reviews
 }
@@ -13,6 +12,11 @@ async function getDetailsOfFilm(movieId) {
 async function getImagesOfFilm(movieId) {
     const images = await movieData.getImagesOfFilmById(movieId)
     return images
+}
+
+async function getSimilarFilms(movieId) {
+    const similarFilms = await movieData.getSimilarFilmsById(movieId)
+    return similarFilms
 }
 
 async function getMovieData(movieId) {
@@ -33,7 +37,7 @@ async function getMovieData(movieId) {
 function generateStringFromArray(myArray) {
     let createdString = ""
     myArray.forEach(element => {
-        createdString += element.name + "|"
+        createdString += " " + element.name + " |"
     });
     createdString = createdString.slice(0, -1);
 
@@ -43,23 +47,10 @@ function generateStringFromArray(myArray) {
 /* SLIDER AND SUBELEMENTS GENERATION */
 function generateSliderCaption(details) {
 
-    const productionCompanies = generateStringFromArray(details.production_companies)
-
     let html = `
     <div class="carousel-caption d-none d-md-block">
-    <h5>${details.original_title}</h5>
-    <div class="stars">
-        <i class="fa-sharp fa-solid fa-star fa-2xl" style="color: #e1f00a;"></i>
-        <i class="fa-sharp fa-solid fa-star fa-2xl" style="color: #e1f00a;"></i>
-        <i class="fa-sharp fa-solid fa-star fa-2xl" style="color: #e1f00a;"></i>
-        <i class="fa-sharp fa-solid fa-star fa-2xl" style="color: #e1f00a;"></i>
-        <i class="fa-sharp fa-solid fa-star fa-2xl fa-star-half-stroke"
-            style="color: #e1f00a;"></i>
-    </div>
-    <p>${details.original_language}</p>
-    <p>${productionCompanies}</p>
-    <p>${details.release_date}</p>
-    <p>${details.runtime} min</p> 
+        <h5>${details.original_title}</h5>
+        <p>${details.release_date}</p>
     </div>
     `
 
@@ -68,16 +59,10 @@ function generateSliderCaption(details) {
 
 async function generateSlider(movieData) {
     const caption = await generateSliderCaption(movieData.details)
-    console.log(movieData.images)
     let images = await movieData.images.postersUrls.splice(0, 5)
     let html = `
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
+        <div class="carousel-inner">
     `
     // generate items
     let i = 0
@@ -91,14 +76,14 @@ async function generateSlider(movieData) {
         html += slideHtml
     })
     html += `
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-</a>
-<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-</a>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 `
     return html
@@ -111,10 +96,56 @@ async function generateSlideImages(imagePath) {
 }
 /* SLIDER AND SUBELEMENTS GENERATION */
 
+async function generateMovieDetails(details) {
+    let html = `<div class="movie-details-body">
+    <h3 class="movie-title">${details.original_title}</h3>
+    <div class="stars">
+        <i class="fa-sharp fa-solid fa-star fa-2xl" style="color: #e1f00a;"></i>
+        <i class="fa-sharp fa-solid fa-star fa-2xl" style="color: #e1f00a;"></i>
+        <i class="fa-sharp fa-solid fa-star fa-2xl" style="color: #e1f00a;"></i>
+        <i class="fa-sharp fa-solid fa-star fa-2xl" style="color: #e1f00a;"></i>
+        <i class="fa-sharp fa-solid fa-star fa-2xl fa-star-half-stroke" style="color: #e1f00a;"></i>
+    </div>
+    <div class="movie-info">
+        <div><strong>Production Companies: </strong> ${generateStringFromArray(details.production_companies)}</div>
+        <div><strong>Release Date: </strong> ${details.release_date}</div>
+        <div><strong>Time: </strong> ${details.runtime}</div>
+        <div><strong>Genres: </strong> ${generateStringFromArray(details.genres)}</div>
+    </div>
+    <p class="movie-overview">${details.overview}</p>
+    </div>
+    `
 
+    return html;
+}
+
+async function generateReviews(reviews) {
+    let html = ""
+    reviews.forEach(review => {
+
+        let reviewHtml = `
+        <li class="list-group-item">
+            <div class="avatar-box">
+                <span class="avatar">
+                    <img 
+                        src="http://image.tmdb.org/t/p/w500${review.author_details.avatar_path}" 
+                        onerror="this.src = 'https://placekeanu.com/300/300'"
+                        alt="profil-picture"
+                    >
+                </span>
+                <span class="avatar-name">${review.author}</span>
+            </div>
+                <span class="comment">${review.content}</span>
+        </li>
+    `
+        html += reviewHtml
+    });
+
+    return html
+}
 
 async function createMovieDetails(movieData) {
-    // get starts
+    // TODO: create starts
 
     // generate slider 
     const slider = await generateSlider(movieData)
@@ -123,22 +154,73 @@ async function createMovieDetails(movieData) {
     movieSlider.innerHTML = slider
 
     // generate details
+    let movieDetailsHtml = await generateMovieDetails(movieData.details)
+    const movieDetail = document.getElementById("movie-details-body")
+    movieDetail.innerHTML = movieDetailsHtml
 
 
+}
 
+async function createReviews(movieData) {
+    const reviews = document.querySelector("#reviews #list-group")
+    const reviewsHtml = await generateReviews(movieData.reviews)
+    reviews.innerHTML = reviewsHtml
+}
+
+async function generateSimilarFilms(movieData) {
+    const films = await getSimilarFilms(movieData.details.id)
+    const similarFilms = document.querySelector("#similar-movies .film-cards")
+    let html = `
+    <div class="text-right">
+    <a class="btn btn-primary mb-3 mr-1" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+    <a class="btn btn-primary mb-3 " href="#carouselExampleIndicators2" role="button" data-slide="next">
+        <i class="fa fa-arrow-right"></i>
+    </a>
+    </div>
+    <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+
+    `
+    let i = 0
+    films.forEach(film => {
+        let filmHtml = `
+        ${i % 5 == 0 ? `<div class="carousel-item ${i == 0 ? 'active' : ''}"><div class="row">` : ''}
+
+        <div class="card">
+            <img src="http://image.tmdb.org/t/p/w500${film.poster_path}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">${film.original_title}</h5>
+            </div>
+        </div>
+        ${i % 5 == 4 ? '</div></div>' : ''}
+        
+
+        `
+        html += filmHtml
+        i++
+    })
+
+    html += "</div></div>"
+    similarFilms.innerHTML = html
+
+}
+
+async function createSimilarFilms(movieData) {
+    generateSimilarFilms(movieData)
 }
 
 function createComponentsForMovieDetailsPage(movieData) {
     createMovieDetails(movieData)
+    createReviews(movieData)
+    createSimilarFilms(movieData)
 }
 
 
 async function getIdFromUrl() {
-    console.log(window)
     const url = new URL(window.location.href)
-    console.log(url)
     const movieId = url.searchParams.get("movieId")
-
     return movieId
 }
 
@@ -146,8 +228,6 @@ async function startPage() {
     const movieId = await getIdFromUrl()
     const movieData = await getMovieData(movieId)
     createComponentsForMovieDetailsPage(movieData)
-
-
 }
 
 startPage()
