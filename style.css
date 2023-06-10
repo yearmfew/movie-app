@@ -1,0 +1,24 @@
+.container {
+    height: 100vh;
+}
+
+.container header {
+    color: blueviolet;
+}
+
+.cards {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card {
+
+    width: 19%;
+}
+
+.card img {
+    height: 350px;
+}
