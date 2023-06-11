@@ -1,0 +1,3 @@
+const apiKey = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNTIxOTY3M2RjY2IwYjJhMjdiYjg4MmFhMmQ1MzQ2MSIsInN1YiI6IjY0ODM5YTNmYmYzMWYyNTA1NGI1M2MxNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ykXiwy9JJ6iL1YYFB0subyNpNj8byiRMs1oc5jyupxI'
+
+export default apiKey
