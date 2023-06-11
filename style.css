@@ -6,20 +6,30 @@
     color: blueviolet;
 }
 
-.container .cards {
+#popularMovies .filmCards {
     display: flex;
-    align-items: flex-start;
-    width: 100%;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
+    width: 100%;
 }
 
-.container .card {
-    width: 19%;
+.filmCard {
+    flex: 0 0 12%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.container .card img {
+.container .filmCard img {
     height: 350px;
+}
+
+#popularMovies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    width: 100%;
 }
 
 
@@ -65,11 +75,6 @@
     gap: 1rem;
 }
 
-.stars {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0;
-}
 
 .list-group-item {
     display: flex;
@@ -110,6 +115,8 @@
     display: flex;
     flex-direction: column;
 }
+
+
 
 #similar-movies .card {
     width: 20%;
