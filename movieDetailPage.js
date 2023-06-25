@@ -1,5 +1,6 @@
 import movieData from "./movieData.js"
 
+
 async function getReviewsOfFilm(movieId) {
     const reviews = await movieData.getReviewsOfFilmById(movieId)
     return reviews
