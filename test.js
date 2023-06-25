@@ -20,25 +20,30 @@ async function fetchPopularFilms() {
 // View
 
 async function fillTestDiv() {
+    // rEquesti yapiyoruz
     const result = await fetchPopularFilms()
 
     const films = result.results
 
-
+    // icine yazacagimiz divi sectik
     const test = document.getElementById("test")
 
+    // icini olusturmaya basladik
     let html = '<div class="test">'
 
     films.forEach(film => {
-
+        // Her bir filmin ismini html icine ekledik
         html += `<div>${film.original_title}</div>`
     });
 
+    // HTML i kapattik
     html += "</div>"
+
+    // en son olarak sayfaya yazdirdik
     test.innerHTML = html
 }
 
-
+// UYgulamanin asil calistigi fonksiyon.
 function main() {
 
     fillTestDiv()
